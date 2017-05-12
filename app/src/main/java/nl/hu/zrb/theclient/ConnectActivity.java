@@ -1,44 +1,31 @@
-package nl.hu.zrb.btclient;
+package nl.hu.zrb.theclient;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.util.Set;
-import java.util.UUID;
-
-import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-public class ConnectActivity extends ListActivity  {
+import java.util.Set;
+
+public class ConnectActivity extends AppCompatActivity  {
 	
-	DeviceListAdapter adapter;
+	DeviceListAdapter adapter1, adapter2;
 	BluetoothAdapter btadapter = BluetoothAdapter.getDefaultAdapter();
-    Button b;
     String tag = "BluetoothRemoteControl";
     int REQUEST_ENABLE_BT = 234;
 
+    RecyclerView rv1, rv2;
 
 	
     /** Called when the activity is first created. */
@@ -46,23 +33,26 @@ public class ConnectActivity extends ListActivity  {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (btadapter == null) {
-            /*String text = "Your device does not support bluetooth.";
+            String text = "Your device does not support bluetooth.";
             Toast toast = Toast.makeText(this, text, Toast.LENGTH_LONG);
-            toast.show();*/
-            ListView lv = getListView();
-            TextView tv = new TextView(this);
-            tv.setText("Your device does not support bluetooth");
-            ((ViewGroup)lv.getParent()).addView(tv);
-            lv.setEmptyView(tv);
+            toast.show();
             return;
         }
         Log.i(tag, "oncreate");
-        adapter = new DeviceListAdapter(this);
-        ListView lv = getListView();
-        TextView tv = new TextView(this);
-        tv.setText("no devices");
-        ((ViewGroup)lv.getParent()).addView(tv);
-        lv.setEmptyView(tv);
+        setContentView(R.layout.activity_connect);
+        rv1 = (RecyclerView) findViewById(R.id.recycler_view1);
+        adapter1 = new DeviceListAdapter(this);
+        RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getApplicationContext());
+        rv1.setLayoutManager(mLayoutManager1);
+        rv1.setItemAnimator(new DefaultItemAnimator());
+        rv1.setAdapter(adapter1);
+        rv2 = (RecyclerView) findViewById(R.id.recycler_view2);
+        adapter2 = new DeviceListAdapter(this);
+        RecyclerView.LayoutManager mLayoutManager2 = new LinearLayoutManager(getApplicationContext());
+        rv2.setLayoutManager(mLayoutManager2);
+        rv2.setItemAnimator(new DefaultItemAnimator());
+        rv2.setAdapter(adapter2);
+
 
         if(!btadapter.isEnabled()){
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -71,10 +61,8 @@ public class ConnectActivity extends ListActivity  {
         else {
             Set<BluetoothDevice> pairedDevices = btadapter.getBondedDevices();
             for(BluetoothDevice dev: pairedDevices)
-                adapter.add(dev);
+                adapter2.add(dev);
         }
-        setListAdapter(adapter);   
-
     }
 
     @Override
@@ -92,7 +80,6 @@ public class ConnectActivity extends ListActivity  {
         int id = item.getItemId();
 
         if (id == R.id.refresh && btadapter != null){
-            onContentChanged();
             boolean succes = btadapter.startDiscovery();
             if(succes)
                 Log.i(tag, "discovery started");
@@ -119,7 +106,7 @@ public class ConnectActivity extends ListActivity  {
         if(resultCode == RESULT_OK && requestCode == REQUEST_ENABLE_BT){
             Set<BluetoothDevice> pairedDevices = btadapter.getBondedDevices();
             for(BluetoothDevice dev: pairedDevices)
-                adapter.add(dev);
+                adapter2.add(dev);
 
         }
     }
@@ -131,27 +118,11 @@ public class ConnectActivity extends ListActivity  {
     			// Get the BluetoothDevice object from the Intent            
     			BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);            
     			// Add the device to an array adapter to show in a ListView            
-    			adapter.add(device);   
-    			onContentChanged();
+    			adapter1.add(device);
     			Log.i(tag, "gevonden device " + device.getName());
     		}
     	}
     };
 
-	
-
-	@Override
-	public void onListItemClick(ListView l, View arg1, int arg2, long arg3) {
-        btadapter.cancelDiscovery();
-		BluetoothDevice device = (BluetoothDevice)adapter.getItem(arg2);
-		Log.i(tag, device.getName());
-        Intent myIntent = new Intent();
-        myIntent.putExtra("theDevice", device);
-        setResult(RESULT_OK, myIntent);
-        finish();
-    }
-	
-
-	
 
 }

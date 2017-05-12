@@ -1,4 +1,4 @@
-package nl.hu.zrb.btclient;
+package nl.hu.zrb.theclient;
 
 import java.util.Vector;
 

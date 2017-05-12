@@ -4,87 +4,12 @@
     android:layout_width="match_parent"
     android:layout_marginBottom="10dp"
     android:orientation="vertical"
-    tools:context="nl.hu.zrb.btclient.ControlActivity">
-<TextView android:text="not connected" android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/textView" />
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    >
+    android:keepScreenOn="true"
+    tools:context="nl.hu.zrb.theclient.ControlActivity">
 
-    <ImageButton
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:id="@+id/imageButtonUp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:src="@drawable/arrow_up_icon"
-        android:onClick="onUp" />
+    <TextView android:text="not connected" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView" />
 
-    <ImageButton
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:id="@+id/imageButtonLeft"
-        android:layout_below="@+id/imageButtonUp"
-        android:layout_toLeftOf="@+id/imageButtonFire"
-        android:src="@drawable/arrow_left_icon"
-        android:onClick="onLeft" />
 
-    <ImageButton
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:id="@+id/imageButtonFire"
-        android:layout_below="@id/imageButtonUp"
-        android:layout_alignLeft="@+id/imageButtonUp"
-        android:onClick="onFire" />
-
-    <ImageButton
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:id="@+id/imageButtonRight"
-        android:layout_below="@+id/imageButtonUp"
-        android:layout_toRightOf="@+id/imageButtonFire"
-        android:src="@drawable/arrow_right_icon"
-        android:onClick="onRight" />
-
-    <ImageButton
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:id="@+id/imageButtonDown"
-        android:layout_below="@+id/imageButtonFire"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/arrow_down_icon"
-        android:onClick="onDown" />
-
-</RelativeLayout>
-<LinearLayout
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_weight="0"
-android:gravity="center_horizontal"
-    >
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Button A"
-    android:id="@+id/button6"
-    android:onClick="onA" />
-
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Button B"
-    android:id="@+id/button7"
-    android:onClick="onB" />
-
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Button C"
-    android:id="@+id/button8"
-    android:layout_alignTop="@+id/button7"
-    android:onClick="onC" />
-</LinearLayout>
 </LinearLayout>

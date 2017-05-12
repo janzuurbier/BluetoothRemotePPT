@@ -1,6 +1,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="nl.hu.zrb.btclient.ControlActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="nl.hu.zrb.theclient.ControlActivity">
     <item android:id="@+id/refresh" android:title="refresh"
-        android:orderInCategory="10" android:showAsAction="ifRoom" android:icon="@drawable/refresh_icon"/>
+        android:orderInCategory="10"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/refresh_icon"/>
 </menu>

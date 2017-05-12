@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="nl.hu.zrb.btclient"
-    android:versionCode="1"
+    package="nl.hu.zrb.theclient"
+
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="8" />
+
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -12,16 +12,21 @@
 
 
     <application
-        android:icon="@drawable/icon"
+        android:icon="@drawable/ppt"
         android:label="@string/app_name"
-        android:theme = "@style/Apptheme" >
+        android:supportsRtl="true"
+        android:theme = "@style/AppTheme" >
         <activity
-            android:name=".ConnectActivity"
+            android:theme = "@style/AppTheme"
+            android:name="nl.hu.zrb.theclient.ConnectActivity"
             android:label="connecting" >
 
         </activity>
         <activity
-            android:name=".ControlActivity"  android:label="remote control" >
+            android:screenOrientation="portrait"
+            android:name="nl.hu.zrb.theclient.ControlActivity"
+            android:label="remote control"
+            android:theme = "@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
