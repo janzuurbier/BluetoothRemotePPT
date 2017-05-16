@@ -22,14 +22,12 @@ public class MyConnection {
     BluetoothSocket theSocket;
     private OutputStream out;
     private InputStream in;
-    private Wachtrij<String> messageQueue;
     private MessageListener listener;
     private final String TAG = "MyConnection";
 
+
     public MyConnection(MessageListener listener){
         this.listener = listener;
-        messageQueue = new Wachtrij<>();
-
     }
 
     public boolean isConnected(){
@@ -53,39 +51,16 @@ public class MyConnection {
     }
 
     public void sendCommand(String command) {
-        messageQueue.voegToe(command + "\n");
-    }
-
-    private class ThreadThatSendsCommandsByBT extends Thread {
-
-        @Override
-        public void run() {
-            while (true) {
-                String command = messageQueue.neemWeg();
-
-                try {
-                    out.write(command.getBytes());
-
-                } catch (IOException e) {
-                    Log.i(TAG, e.toString());
-                    Message m = new Message();
-                    m.getData().putString("theText", "Connection lost: " + e.getMessage());
-                    h.sendMessage(m);
-                    break;
-                }
-            }
-
+        if(!connected) return;
+        try {
+            out.write((command+"\n").getBytes());
+        } catch (IOException e) {
+            Log.i(TAG, e.toString());
+            listener.onMessage("Connection lost: " + e.getMessage());
             closeConnection();
-
         }
     }
 
-    private Handler h = new Handler(){
-        public void handleMessage(Message message){
-            String s = (String) message.getData().get("theText");
-            listener.onMessage(s);
-        }
-    };
 
     private class ConnectTask extends AsyncTask<BluetoothDevice, Void, String> {
 
@@ -99,7 +74,6 @@ public class MyConnection {
                 out = theSocket.getOutputStream();
                 in = theSocket.getInputStream();
                 connected = true;
-                new ThreadThatSendsCommandsByBT().start();
                 return "connected";
 
             }
